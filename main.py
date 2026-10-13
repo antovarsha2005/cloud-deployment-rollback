@@ -14,7 +14,7 @@ def home():
 
 @app.route("/health")
 def health():
-    return "Healthy", 200
+    return "Simulated health-check failure", 500
 
 if __name__ == "__main__":
     app.run(
