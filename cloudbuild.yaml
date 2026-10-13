@@ -3,7 +3,10 @@ steps:
     entrypoint: 'bash'
     args:
       - '-c'
-      - |
+     - |
+        set -e
+        apt-get update
+        apt-get install -y curl
         chmod +x deploy-with-rollback.sh
         ./deploy-with-rollback.sh
 options:
