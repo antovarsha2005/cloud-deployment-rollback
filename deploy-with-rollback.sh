@@ -35,8 +35,8 @@ TEST_URL=$(gcloud run services describe "$SERVICE" \
   --region "$REGION" \
   --project "$PROJECT" \
   --flatten="status.traffic[]" \
-  --filter="status.traffic.tag=$TAG" \
-  --format="value(status.traffic.url)")
+  --format="csv[no-heading](status.traffic.tag,status.traffic.url)" \
+  | awk -F, -v tag="$TAG" '$1 == tag {print $2; exit}')
 
 
 if [ -z "$TEST_URL" ]; then
