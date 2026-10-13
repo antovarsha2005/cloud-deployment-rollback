@@ -31,10 +31,13 @@ gcloud run deploy "$SERVICE" \
   --quiet
 
 # Get the candidate URL
-TEST_URL=$(gcloud run services describe "$SERVICE" 
-  --region "$REGION" 
-  --project "$PROJECT" 
-  --format=json | python3 -c 'import json,sys; tag=sys.argv[1]; d=json.load(sys.stdin); print(next((x.get("url","") for x in d.get("status",{}).get("traffic",[]) if x.get("tag")==tag), ""))' "$TAG")
+TEST_URL=$(gcloud run services describe "$SERVICE" \
+  --region "$REGION" \
+  --project "$PROJECT" \
+  --flatten="status.traffic[]" \
+  --filter="status.traffic.tag=$TAG" \
+  --format="value(status.traffic.url)")
+
 
 if [ -z "$TEST_URL" ]; then
   echo "ERROR: Candidate URL not found."
