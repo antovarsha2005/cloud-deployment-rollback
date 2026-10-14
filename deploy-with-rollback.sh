@@ -12,7 +12,11 @@ echo "=== Automated deployment with rollback ==="
 STABLE=$(gcloud run services describe "$SERVICE" \
   --region "$REGION" \
   --project "$PROJECT" \
- --format="value(status.traffic[0].revisionName)")
+  --format="value(status.traffic[0].revisionName)")
+
+# Always use the known Version 1 revision as the rollback target
+STABLE="rollback-demo-00002-647"
+
 
 if [ -z "$STABLE" ]; then
   echo "ERROR: Could not find the stable revision."
