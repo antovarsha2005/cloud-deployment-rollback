@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # True = unhealthy candidate for the rollback demonstration
 # False = healthy Version 2 for the successful deployment demonstration
-SIMULATE_FAILURE = True
+SIMULATE_FAILURE = False
 
 
 @app.route("/")
